@@ -89,7 +89,7 @@ $(document).ready(function () {
             $("#kw-target").val("");
             $("#kw-target").attr("disabled", false);
             autoresize();
-            $("#ai-btn").html('<i class="iconfont icon-wuguan"></i>发送');
+            $("#ai-btn").html('<i class="iconfont icon-wuguan"></i>SEND');
             if (!isMobile()) $("#kw-target").focus();
         } else {
             send_post();
@@ -100,30 +100,30 @@ $(document).ready(function () {
     $("#clean").click(function () {
         $("#article-wrapper").html("");
         contextarray = [];
-        layer.msg("清理完毕！");
+        layer.msg("CLEANED");
         return false;
     });
 
     $("#showlog").click(function () {
-        let btnArry = ['已阅'];
-        layer.open({ type: 1, title: '全部对话日志', area: ['80%', '80%'], shade: 0.5, scrollbar: true, offset: [($(window).height() * 0.1), ($(window).width() * 0.1)], content: '<iframe src="chat.txt?' + new Date().getTime() + '" style="width: 100%; height: 100%;"></iframe>', btn: btnArry });
+        let btnArry = ['READED'];
+        layer.open({ type: 1, title: 'ALL LOGS', area: ['80%', '80%'], shade: 0.5, scrollbar: true, offset: [($(window).height() * 0.1), ($(window).width() * 0.1)], content: '<iframe src="chat.txt?' + new Date().getTime() + '" style="width: 100%; height: 100%;"></iframe>', btn: btnArry });
         return false;
     });
 
     function send_post() {
         if (($('#key').length) && ($('#key').val().length != 51)) {
-            layer.msg("请输入正确的API-KEY", { icon: 5 });
+            layer.msg("Input correct API-KEY", { icon: 5 });
             return;
         }
 
         var prompt = $("#kw-target").val();
 
         if (prompt == "") {
-            layer.msg("请输入您的问题", { icon: 5 });
+            layer.msg("Input text", { icon: 5 });
             return;
         }
 
-        var loading = layer.msg('正在组织语言，请稍等片刻...', {
+        var loading = layer.msg('Waiting...', {
             icon: 16,
             shade: 0.4,
             time: false //取消自动关闭
@@ -139,28 +139,28 @@ $(document).ready(function () {
                 var errcode = getCookie("errcode");
                 switch (errcode) {
                     case "invalid_api_key":
-                        layer.msg("API-KEY不合法");
+                        layer.msg("API-KEY not right");
                         break;
                     case "context_length_exceeded":
-                        layer.msg("问题和上下文长度超限，请重新提问");
+                        layer.msg("too long");
                         break;
                     case "rate_limit_reached":
-                        layer.msg("同时访问用户过多，请稍后再试");
+                        layer.msg("too many users");
                         break;
                     case "access_terminated":
-                        layer.msg("违规使用，API-KEY被封禁");
+                        layer.msg("API-KEY Banned");
                         break;
                     case "no_api_key":
-                        layer.msg("未提供API-KEY");
+                        layer.msg("no API-KEY");
                         break;
                     case "insufficient_quota":
-                        layer.msg("API-KEY余额不足");
+                        layer.msg("API-KEY not enough credit");
                         break;
                     case null:
-                        layer.msg("OpenAI服务器访问超时或未知类型错误");
+                        layer.msg("OpenAI error unknowen");
                         break;
                     default:
-                        layer.msg("OpenAI服务器故障，错误类型：" + errcode);
+                        layer.msg("OpenAI errorer" + errcode);
                 }
                 es.close();
                 if (!isMobile()) $("#kw-target").focus();
@@ -169,10 +169,10 @@ $(document).ready(function () {
             es.onmessage = function (event) {
                 if (isstarted) {
                     layer.close(loading);
-                    $("#kw-target").val("请耐心等待AI把话说完……");
+                    $("#kw-target").val("Please wait……");
                     $("#kw-target").attr("disabled", true);
                     autoresize();
-                    $("#ai-btn").html('<i class="iconfont icon-wuguan"></i>中止');
+                    $("#ai-btn").html('<i class="iconfont icon-wuguan"></i>STOP');
                     layer.msg("处理成功！");
                     isstarted = false;
                     answer = randomString(16);
@@ -200,7 +200,7 @@ $(document).ready(function () {
                                 $("#kw-target").val("");
                                 $("#kw-target").attr("disabled", false);
                                 autoresize();
-                                $("#ai-btn").html('<i class="iconfont icon-wuguan"></i>发送');
+                                $("#ai-btn").html('<i class="iconfont icon-wuguan"></i>SEND');
                                 if (!isMobile()) $("#kw-target").focus();
                             }
                         }
@@ -220,7 +220,7 @@ $(document).ready(function () {
                         $("#" + answer).html(newalltext);
                         if (document.querySelector("#" + answer + " pre code")) document.querySelectorAll("#" + answer + " pre code").forEach(el => { hljs.highlightElement(el); });
                         $("#" + answer + " pre code").each(function () {
-                            $(this).html("<button onclick='copycode(this);' class='codebutton'>复制</button>" + $(this).html());
+                            $(this).html("<button onclick='copycode(this);' class='codebutton'>COPY</button>" + $(this).html());
                         });
                         document.getElementById("article-wrapper").scrollTop = 100000;
                     }, 20);

@@ -918,7 +918,7 @@ a.unlinks-deco {
 }
 
 .layout-header .nav .nav-btn {
-    padding-left: 35px;
+    padding-left: 5px;
 }
 
 .layout-header .nav .btn {
@@ -952,7 +952,7 @@ a.unlinks-deco {
 
 .layout-content {
     padding: 22px 0 50px;
-    background-color: #343541;
+    background-color: #000000;
 }
 
 .layout-bar {
