@@ -176,11 +176,14 @@ $(document).ready(function () {
                     layer.msg("处理成功！");
                     isstarted = false;
                     answer = randomString(16);
-                    $("#article-wrapper").append('<li class="article-title" id="q' + answer + '"><pre></pre></li>');
+
+	$("#article-wrapper").prepend('<li class="article-content" id="' + answer + '"></li><li class="article-title" id="q' + answer + '"><pre></pre></li>');
+
+
                     for (var j = 0; j < prompt.length; j++) {
                         $("#q" + answer).children('pre').text($("#q" + answer).children('pre').text() + prompt[j]);
                     }
-                    $("#article-wrapper").append('<li class="article-content" id="' + answer + '"></li>');
+ 
                     let str_ = '';
                     let i = 0;
                     timer = setInterval(() => {
