@@ -42,7 +42,7 @@ function copyToClipboard(text) {
 
 function copycode(obj) {
     copyToClipboard($(obj).closest('code').clone().children('button').remove().end().text());
-    layer.msg("复制完成！");
+    layer.msg("Copied！");
 }
 
 function autoresize() {
@@ -123,10 +123,10 @@ $(document).ready(function () {
             return;
         }
 
-        var loading = layer.msg('Waiting...', {
+        var loading = layer.msg('NPC is Reading...', {
             icon: 16,
             shade: 0.4,
-            time: false //取消自动关闭
+            time: false 
         });
 
         function streaming() {
@@ -173,18 +173,21 @@ $(document).ready(function () {
                     $("#kw-target").attr("disabled", true);
                     autoresize();
                     $("#ai-btn").html('<i class="iconfont icon-wuguan"></i>STOP');
-                    layer.msg("处理成功！");
+                    layer.msg("NPC is typing...");
                     isstarted = false;
                     answer = randomString(16);
-                    $("#article-wrapper").append('<li class="article-title" id="q' + answer + '"><pre></pre></li>');
+
+	$("#article-wrapper").prepend('<li class="article-content" id="' + answer + '"></li><li class="article-title" id="q' + answer + '"><pre></pre></li>');
+
+
                     for (var j = 0; j < prompt.length; j++) {
                         $("#q" + answer).children('pre').text($("#q" + answer).children('pre').text() + prompt[j]);
                     }
-                    $("#article-wrapper").append('<li class="article-content" id="' + answer + '"></li>');
+ 
                     let str_ = '';
                     let i = 0;
                     timer = setInterval(() => {
-                        //下面这行是为了处理有时服务器错误地返回\\n作为换行符，但返回的结果如果包含代码，则\\n是正确的格式。
+                
                         let newalltext = alltext;
                         if (newalltext.indexOf("```") == -1) {
                             newalltext = newalltext.replace(/\\n/g, '\n');
@@ -228,14 +231,14 @@ $(document).ready(function () {
                 if (event.data == "[DONE]") {
                     isalltext = true;
                     contextarray.push([prompt, alltext]);
-                    contextarray = contextarray.slice(-5); //只保留最近5次对话作为上下文，以免超过最大tokens限制
+                    contextarray = contextarray.slice(-5); 
                     es.close();
                     return;
                 }
                 var json = eval("(" + event.data + ")");
                 if (json.choices[0].delta.hasOwnProperty("content")) {
                     if (alltext == "") {
-                        alltext = json.choices[0].delta.content.replace(/^\n+/, ''); //去掉回复消息中偶尔开头就存在的连续换行符
+                        alltext = json.choices[0].delta.content.replace(/^\n+/, ''); 
                     } else {
                         alltext += json.choices[0].delta.content;
                     }

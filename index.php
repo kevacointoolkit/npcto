@@ -219,7 +219,7 @@ fileInputBtn.addEventListener("click", function () {
       reader.onload = function (event) {
         const img = document.createElement("img");
         img.src = event.target.result;
-		img.style.maxHeight = "50vh";
+		img.style.maxHeight = "60vh";
         previewContainer.innerHTML = "";
         previewContainer.appendChild(img);
       };
@@ -231,22 +231,32 @@ fileInputBtn.addEventListener("click", function () {
       video.controls = true;
       video.autoplay = true;
       video.loop = true;
-	  video.style.maxHeight = "50vh";
+	  video.style.maxHeight = "60vh";
       previewContainer.innerHTML = "";
       previewContainer.appendChild(video);
     }
 
-  // Send file name to PHP script and set response as value of textarea
-    const xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-      if (xhr.readyState === 4 && xhr.status === 200) {
-        const response = xhr.responseText;
-        kwTarget.value = response;
-      }
-    };
-    xhr.open("POST", "keva.php");
-    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhr.send("fn=" + fileName);
+const xhr = new XMLHttpRequest();
+let response = ""; // Declare response variable outside the function
+
+xhr.onreadystatechange = function () {
+  if (xhr.readyState === 4 && xhr.status === 200) {
+    response = xhr.responseText; // Assign value to response variable
+    kwTarget.value = response;
+    // Check if response is not empty
+    if (response.trim() !== "") {
+      // Trigger click event on ai-btn
+      const aiBtn = document.querySelector("#ai-btn");
+      aiBtn.click();
+      response = ""; // Reset response variable
+    }
+  }
+};
+xhr.open("POST", "/keva.php");
+xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+xhr.send("fn=" + fileName);
+
+
   };
   input.click();
 });
@@ -271,6 +281,7 @@ dropdownContent.addEventListener('click', function(event) {
         textarea.value = ''; // 
         textarea.value += value;
         dropdownContent.classList.remove('show');
+		
     }
 });
 

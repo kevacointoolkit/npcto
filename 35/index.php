@@ -118,7 +118,7 @@ $type = "NPC.TO";
             
                
 
-			<div class="dropdown" style="position:relative; display:inline-block;">
+	<div class="dropdown" style="position:relative; display:inline-block;">
     <button class="dropbtn">NPC.TO</button>
     <div class="dropdown-content">
 	<div style="display: flex;flex-direction: row;">
@@ -138,6 +138,8 @@ $type = "NPC.TO";
 		<a href="#" data-value="I want you to play the role of a storyteller. You will come up with an engaging, imaginative, and captivating story that would appeal to the audience. It can be a fairy tale, an educational story, or any other type of story that has the potential to capture people's attention and imagination. Depending on the target audience, you can select a specific theme or subject for the storytelling segment. For instance, if it is for children, you can talk about animals, and if it is for adults, a story based on history might better capture their attention. My first request is, 'I need an interesting story about perseverance.'">Storyteller</a>
 
 		<a href="#" data-value=""></a>
+
+		<a href="https://github.com/kevacointoolkit/npcto" class="links" id="clickable-link3">GITHUB</a>
 
 		</div>
 
@@ -168,7 +170,8 @@ $type = "NPC.TO";
 					
    <br>
 	
-                        <ul id="article-wrapper">
+                        <ul id="article-wrapper" style="display: flex; flex-direction: column-reverse;"></ul>
+
             	
                         </ul>
 
@@ -201,6 +204,7 @@ $type = "NPC.TO";
 <script>
     const fileInputBtn = document.querySelector("#file-input-btn");
 const previewContainer = document.querySelector("#preview-container");
+const kwTarget = document.querySelector("#kw-target");
 
 fileInputBtn.addEventListener("click", function () {
   const input = document.createElement("input");
@@ -208,13 +212,14 @@ fileInputBtn.addEventListener("click", function () {
   input.accept = "image/*,video/*";
   input.onchange = function (event) {
     const file = event.target.files[0];
+    const fileName = file.name;
     if (file.type.startsWith("image")) {
       // If the selected file is an image
       const reader = new FileReader();
       reader.onload = function (event) {
         const img = document.createElement("img");
         img.src = event.target.result;
-		img.style.maxHeight = "70vh";
+		img.style.maxHeight = "60vh";
         previewContainer.innerHTML = "";
         previewContainer.appendChild(img);
       };
@@ -226,10 +231,32 @@ fileInputBtn.addEventListener("click", function () {
       video.controls = true;
       video.autoplay = true;
       video.loop = true;
-	  video.style.maxHeight = "70vh";
+	  video.style.maxHeight = "60vh";
       previewContainer.innerHTML = "";
       previewContainer.appendChild(video);
     }
+
+const xhr = new XMLHttpRequest();
+let response = ""; // Declare response variable outside the function
+
+xhr.onreadystatechange = function () {
+  if (xhr.readyState === 4 && xhr.status === 200) {
+    response = xhr.responseText; // Assign value to response variable
+    kwTarget.value = response;
+    // Check if response is not empty
+    if (response.trim() !== "") {
+      // Trigger click event on ai-btn
+      const aiBtn = document.querySelector("#ai-btn");
+      aiBtn.click();
+      response = ""; // Reset response variable
+    }
+  }
+};
+xhr.open("POST", "/keva.php");
+xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+xhr.send("fn=" + fileName);
+
+
   };
   input.click();
 });
@@ -254,17 +281,17 @@ dropdownContent.addEventListener('click', function(event) {
         textarea.value = ''; // 
         textarea.value += value;
         dropdownContent.classList.remove('show');
+		
     }
 });
 
-document.getElementById("clickable-link").addEventListener("click", function(event) {
-  event.stopPropagation();
-  window.location.href = this.href;
-});
-document.getElementById("clickable-link2").addEventListener("click", function(event) {
-  event.stopPropagation();
-  window.location.href = this.href;
-});
+var links = document.querySelectorAll("[id^='clickable-link']");
+for (var i = 0; i < links.length; i++) {
+  links[i].addEventListener("click", function(event) {
+    event.stopPropagation();
+    window.location.href = this.href;
+  });
+}
 </script>
 
 
