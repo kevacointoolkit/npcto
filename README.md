@@ -18,6 +18,13 @@ To generate good prompts, you can use ChatGPT, for example: "I want you to act l
 
 Finally, if you have AR glasses, you can enjoy an immersive experience by watching videos or images with a black background and seeing your transparent NPCs fixed in space.
 
+# KEVA SPACE KEY
+
+------
+
+PROMPT Your NPC style.
+
+NPC Your NPC name.
 
 # install
 
