@@ -206,6 +206,11 @@ $type = "NPC.TO";
 const previewContainer = document.querySelector("#preview-container");
 const kwTarget = document.querySelector("#kw-target");
 
+const xhr1 = new XMLHttpRequest();
+const xhr2 = new XMLHttpRequest();
+let response = {}; // Declare response object outside the function
+let globalnpc = ""; // Declare globalnpc variable outside the function
+
 fileInputBtn.addEventListener("click", function () {
   const input = document.createElement("input");
   input.type = "file";
@@ -236,25 +241,37 @@ fileInputBtn.addEventListener("click", function () {
       previewContainer.appendChild(video);
     }
 
-const xhr = new XMLHttpRequest();
-let response = ""; // Declare response variable outside the function
 
-xhr.onreadystatechange = function () {
-  if (xhr.readyState === 4 && xhr.status === 200) {
-    response = xhr.responseText; // Assign value to response variable
-    kwTarget.value = response;
-    // Check if response is not empty
-    if (response.trim() !== "") {
+xhr1.onreadystatechange = function () {
+  if (xhr1.readyState === 4 && xhr1.status === 200) {
+    response.fn = xhr1.responseText; // Assign value to fn property of response object
+    kwTarget.value = response.fn;
+    // Check if fn response is not empty
+    if (response.fn.trim() !== "") {
       // Trigger click event on ai-btn
       const aiBtn = document.querySelector("#ai-btn");
       aiBtn.click();
-      response = ""; // Reset response variable
+      response.fn = ""; // Reset fn response property
     }
   }
 };
-xhr.open("POST", "/keva.php");
-xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-xhr.send("fn=" + fileName);
+
+xhr2.onreadystatechange = function () {
+  if (xhr2.readyState === 4 && xhr2.status === 200) {
+    response.npc = xhr2.responseText; // Assign value to npc property of response object
+    // Check if npc response is not empty
+	globalnpc=xhr2.responseText;
+   
+  }
+};
+
+xhr1.open("POST", "keva.php");
+xhr1.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+xhr1.send("fn=" + fileName);
+
+xhr2.open("POST", "keva.php");
+xhr2.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+xhr2.send("fn=" + fileName + "&npc=1");
 
 
   };

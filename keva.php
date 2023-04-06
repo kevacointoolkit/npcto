@@ -102,6 +102,8 @@ if(is_numeric($comm) & strlen($comm)>4)
 
 			  //echo $namespace['value'];
 
+			  if(!$_REQ["npc"]){
+
 			  //check prompt
 
 			  $prompt=$kpc->keva_get($asset,"PROMPT");
@@ -109,7 +111,18 @@ if(is_numeric($comm) & strlen($comm)>4)
 
 
 
-	echo $prompt["value"];
+	echo $prompt["value"];}else{
+
+		$npc=$kpc->keva_get($asset,"NPC");
+
+
+
+
+	echo $npc["value"];
+	
+	
+	
+	}
 	
 
 
@@ -117,16 +130,11 @@ if(is_numeric($comm) & strlen($comm)>4)
 	}
 
 
-
-
-
-
-		
-
-
-
-
 }
+
+//npc
+
+
 
 
 //funtion

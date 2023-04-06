@@ -110,6 +110,9 @@ $(document).ready(function () {
         return false;
     });
 
+let npcNamex = "NPC"; // Declare npcName variable outside function
+
+
     function send_post() {
         if (($('#key').length) && ($('#key').val().length != 51)) {
             layer.msg("Input correct API-KEY", { icon: 5 });
@@ -123,11 +126,17 @@ $(document).ready(function () {
             return;
         }
 
-        var loading = layer.msg('NPC is Reading...', {
-            icon: 16,
-            shade: 0.4,
-            time: false 
-        });
+
+
+let npcNamex = globalnpc.trim() !== "" ? globalnpc : "NPC";
+
+var loading = layer.msg(`${npcNamex} is Reading...`, {
+  icon: 16,
+  shade: 0.4,
+  time: false 
+});
+
+let npcNamey = "NPC"; // Declare npcName variable outside function
 
         function streaming() {
             var es = new EventSource("stream.php");
@@ -173,7 +182,8 @@ $(document).ready(function () {
                     $("#kw-target").attr("disabled", true);
                     autoresize();
                     $("#ai-btn").html('<i class="iconfont icon-wuguan"></i>STOP');
-                    layer.msg("NPC is typing...");
+let npcNamey = globalnpc.trim() !== "" ? globalnpc : "NPC";
+                    layer.msg(`${npcNamey} is typing...`);
                     isstarted = false;
                     answer = randomString(16);
 
