@@ -42,4 +42,6 @@ php.ini
 
 extension=curl
 
+------
 
+Code was written with the help of GPT-3 and GPT-4
